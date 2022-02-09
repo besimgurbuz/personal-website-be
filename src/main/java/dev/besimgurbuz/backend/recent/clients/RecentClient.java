@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
  * @author Besim Gurbuz
  */
 public abstract class RecentClient<T> {
-    RestTemplate restTemplate;
+    final RestTemplate restTemplate;
 
     RecentClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
