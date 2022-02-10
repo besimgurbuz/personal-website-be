@@ -1,13 +1,13 @@
 package dev.besimgurbuz.backend.recent.controllers;
 
 import dev.besimgurbuz.backend.recent.clients.SpotifyClient;
+import dev.besimgurbuz.backend.recent.dtos.RecentSpotifyActivity;
 import dev.besimgurbuz.backend.recent.dtos.RecentSteamActivity;
 import dev.besimgurbuz.backend.recent.services.RecentActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.michaelthelin.spotify.model_objects.specification.PlayHistory;
 
 /**
  * @author Besim Gurbuz
@@ -30,7 +30,7 @@ public class RecentActivityController {
     }
 
     @GetMapping("/spotify")
-    public PlayHistory[] recentSpotify() {
+    public RecentSpotifyActivity recentSpotify() {
         return spotifyClient.getRecentActivity();
     }
 }

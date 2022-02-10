@@ -1,6 +1,7 @@
 package dev.besimgurbuz.backend.recent.clients;
 
-import dev.besimgurbuz.backend.recent.dtos.*;
+import dev.besimgurbuz.backend.recent.dtos.RecentSpotifyActivity;
+import dev.besimgurbuz.backend.recent.enums.SpotifyTokenKey;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,28 +11,23 @@ import org.springframework.web.client.RestTemplate;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.exceptions.detailed.UnauthorizedException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.model_objects.specification.PagingCursorbased;
-import se.michaelthelin.spotify.model_objects.specification.PlayHistory;
+import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import se.michaelthelin.spotify.requests.authorization.authorization_code.pkce.AuthorizationCodePKCERefreshRequest;
-import se.michaelthelin.spotify.requests.data.player.GetCurrentUsersRecentlyPlayedTracksRequest;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 /**
  * @author Besim Gurbuz
  */
 @Component
 @Lazy
-public class SpotifyClient extends RecentClient<PlayHistory[]> {
+public class SpotifyClient extends RecentClient<RecentSpotifyActivity> {
     @Value("${spotify.client_id}")
     private String clientId;
 
@@ -45,48 +41,27 @@ public class SpotifyClient extends RecentClient<PlayHistory[]> {
     private String refreshToken;
 
     private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/api/spotify/user-token");
-    public static SpotifyApi spotifyApi;
+    public SpotifyApi spotifyApi;
 
     SpotifyClient(@Autowired RestTemplate restTemplate) {
         super(restTemplate);
     }
 
-    @PostConstruct
-    void onInit() {
+    @PostConstruct()
+    private void onInit() {
         spotifyApi = new SpotifyApi.Builder()
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
                 .setRedirectUri(redirectURI)
                 .build();
-        if (accessToken != null && !accessToken.isEmpty()) {
-            spotifyApi.setAccessToken(accessToken);
-            spotifyApi.setRefreshToken(refreshToken);
-        }
-
-
     }
 
     @Override
-    public PlayHistory[] getRecentActivity() {
-        final GetCurrentUsersRecentlyPlayedTracksRequest recentlyPlayedTracksRequest = spotifyApi
-                .getCurrentUsersRecentlyPlayedTracks()
-                    .limit(1)
-                    .build();
-
-        try {
-            final PagingCursorbased<PlayHistory> playHistory = recentlyPlayedTracksRequest.execute();
-
-            return playHistory.getItems();
-        }  catch (UnauthorizedException exception) {
-            refreshAccessToken();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        return new PlayHistory[]{};
+    public RecentSpotifyActivity getRecentActivity() {
+        return null;
     }
 
-    public String spotifyLogin() {
+    public String getSpotifyLoginURI() {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
                 .scope("user-read-recently-played")
                 .show_dialog(true)
@@ -95,18 +70,28 @@ public class SpotifyClient extends RecentClient<PlayHistory[]> {
         return uri.toString();
     }
 
-    private void refreshAccessToken() {
-        final AuthorizationCodePKCERefreshRequest authorizationCodePKCERefreshRequest = spotifyApi
-                .authorizationCodePKCERefresh()
+    public Map<String, String> getTokensByExchangeCode(String exchangeCode) throws SpotifyWebApiException {
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(exchangeCode)
                 .build();
 
         try {
-            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodePKCERefreshRequest.execute();
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
 
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
             spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            e.printStackTrace();
+
+            System.out.println("Access Token: " + authorizationCodeCredentials.getAccessToken()
+                    + " Refresh Token: " + authorizationCodeCredentials.getRefreshToken()
+                    + " Expires in: " + authorizationCodeCredentials.getExpiresIn());
+            return Map.ofEntries(
+                    entry(SpotifyTokenKey.SPOTIFY_ACCESS_TOKEN.toString(), authorizationCodeCredentials.getAccessToken()),
+                    entry(SpotifyTokenKey.SPOTIFY_REFRESH_TOKEN.toString(), authorizationCodeCredentials.getRefreshToken()));
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            throw new SpotifyWebApiException("Token couldn't fetched.");
         }
+    }
+
+    private void refreshAccessToken() {
     }
 }
