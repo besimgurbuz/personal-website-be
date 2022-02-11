@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/recent")
 public class RecentActivityController {
     private final RecentActivityService recentActivityService;
-    private final SpotifyClient spotifyClient;
 
     RecentActivityController(@Autowired RecentActivityService recentActivityService,
                              @Autowired SpotifyClient spotifyClient) {
         this.recentActivityService = recentActivityService;
-        this.spotifyClient = spotifyClient;
     }
 
     @GetMapping
@@ -31,6 +29,6 @@ public class RecentActivityController {
 
     @GetMapping("/spotify")
     public RecentSpotifyActivity recentSpotify() {
-        return spotifyClient.getRecentActivity();
+        return recentActivityService.getRecentSpotifyActivity();
     }
 }

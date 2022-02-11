@@ -1,6 +1,7 @@
 package dev.besimgurbuz.backend.recent.services;
 
 import dev.besimgurbuz.backend.recent.clients.SpotifyClient;
+import dev.besimgurbuz.backend.recent.utils.SpotifyTokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -20,9 +21,12 @@ import java.util.stream.Collectors;
 @Service
 public class SpotifyAuthenticationService {
     private final SpotifyClient spotifyClient;
+    private final SpotifyTokenHandler tokenHandler;
 
-    SpotifyAuthenticationService(@Autowired SpotifyClient spotifyClient) {
+    SpotifyAuthenticationService(@Autowired SpotifyClient spotifyClient,
+                                 @Autowired SpotifyTokenHandler tokenHandler) {
         this.spotifyClient = spotifyClient;
+        this.tokenHandler = tokenHandler;
     }
 
     public String getSpotifyLoginURI() {
@@ -40,10 +44,6 @@ public class SpotifyAuthenticationService {
     }
 
     private void saveTokens(Map<String, String> tokens) throws URISyntaxException, IOException {
-        List<String> lines = tokens.entrySet().stream().map((entry) -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.toList());
-        Files.write(
-                Paths.get("src/main/resources/data/token.txt"),
-                lines,
-                StandardOpenOption.TRUNCATE_EXISTING);
+        tokenHandler.setTokens(tokens);
     }
 }

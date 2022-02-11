@@ -19,7 +19,7 @@ public class SteamClient extends RecentClient<RecentSteamActivity> {
     @Value("${steam.user_id}")
     private String steamUserId;
 
-    private final String recentGameActivityPath = "/IPlayerService/GetRecentlyPlayedGames/v0001?key=%s&steamid=%s&format=json";
+    private final String RECENT_ACTIVITY_GAMING_PATH = "/IPlayerService/GetRecentlyPlayedGames/v0001?key=%s&steamid=%s&format=json";
 
     SteamClient(@Autowired RestTemplate restTemplate) {
         super(restTemplate);
@@ -27,7 +27,7 @@ public class SteamClient extends RecentClient<RecentSteamActivity> {
 
     @Override
     public RecentSteamActivity getRecentActivity() {
-        String recentActivityURL = String.format(clientBaseURL + recentGameActivityPath, clientAuthKey, steamUserId);
+        String recentActivityURL = String.format(clientBaseURL + RECENT_ACTIVITY_GAMING_PATH, clientAuthKey, steamUserId);
 
         ResponseEntity<RecentSteamActivity> recentSteamActivityResponseEntity =
                 restTemplate.getForEntity(recentActivityURL, RecentSteamActivity.class);
