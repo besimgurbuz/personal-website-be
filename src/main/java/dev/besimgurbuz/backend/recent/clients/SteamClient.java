@@ -7,11 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Besim Gurbuz
  */
 @Component
 public class SteamClient extends RecentClient<RecentSteamActivity> {
+    private static final String TAG = "SteamClient";
+    private static final Logger logger = Logger.getLogger(TAG);
+
     @Value("${steam.api_url}")
     private String clientBaseURL;
     @Value("${steam.auth_key}")
@@ -32,6 +38,7 @@ public class SteamClient extends RecentClient<RecentSteamActivity> {
         ResponseEntity<RecentSteamActivity> recentSteamActivityResponseEntity =
                 restTemplate.getForEntity(recentActivityURL, RecentSteamActivity.class);
         if (recentSteamActivityResponseEntity.getStatusCode().is2xxSuccessful()) {
+            logger.log(Level.INFO, "Successfully fetched recent activity on Steam.");
             return recentSteamActivityResponseEntity.getBody();
         } else {
             return null;

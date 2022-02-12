@@ -37,7 +37,7 @@ public class SpotifyClient extends RecentClient<RecentSpotifyActivity> {
     private static final String TAG = "SpotifyClient";
     private static final Logger logger = Logger.getLogger(TAG);
     private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/api/spotify/user-token");
-    private final String SPOTIFY_RECENTLY_PLAYED_PATH = "/me/player/recently-played";
+    private final String SPOTIFY_RECENTLY_PLAYED_PATH = "/me/player/recently-played?limit=1";
     private final SpotifyTokenHandler spotifyTokenHandler;
 
     @Value("${spotify.client_id}")
@@ -72,6 +72,7 @@ public class SpotifyClient extends RecentClient<RecentSpotifyActivity> {
             HttpEntity<?> entity = new HttpEntity<>(getApiRequestHeaders());
             ResponseEntity<RecentSpotifyActivity> response = restTemplate.exchange(apiUrl + SPOTIFY_RECENTLY_PLAYED_PATH, HttpMethod.GET,
                     entity, RecentSpotifyActivity.class);
+            logger.log(Level.INFO, "Successfully fetched recent activity on Spotify.");
             return response.getBody();
         } catch (HttpClientErrorException e) {
             if (e.getRawStatusCode() == 401)  {

@@ -8,15 +8,38 @@ import lombok.Data;
  */
 @Data
 public class Game {
+    private static final String STEAM_MEDIA_URL = "http://media.steampowered.com/steamcommunity/public/images/apps/%s/%s.jpg";
+
     @JsonProperty("appid")
     private Long appId;
     private String name;
-    @JsonProperty("playtime_2weeks")
-    private Long playtime2Weeks;
-    @JsonProperty("playtime_forever")
-    private Long playtimeForever;
     @JsonProperty("img_icon_url")
-    private String imgIconURL;
+    private String imgIconUrl;
     @JsonProperty("img_logo_url")
-    private String imgLogoURL;
+    private String imgLogoUrl;
+
+    Game() {}
+
+    Game(Long appId, String name, String imgIconURL, String imgLogoURL) {
+        this.appId = appId;
+        this.name = name;
+        this.imgIconUrl =  String.format(STEAM_MEDIA_URL, appId, imgIconURL);
+        this.imgLogoUrl = String.format(STEAM_MEDIA_URL, appId, imgLogoURL);
+    }
+
+    public void setImgIconUrl(String imgIconUrl) {
+        if (appId != null) {
+            this.imgIconUrl = String.format(STEAM_MEDIA_URL, appId, imgIconUrl);
+        } else {
+            this.imgIconUrl = imgIconUrl;
+        }
+    }
+
+    public void setImgLogoUrl(String imgLogoUrl) {
+        if (appId != null) {
+            this.imgLogoUrl = String.format(STEAM_MEDIA_URL, appId, imgLogoUrl);
+        } else {
+            this.imgLogoUrl = imgLogoUrl;
+        }
+    }
 }

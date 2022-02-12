@@ -1,8 +1,10 @@
 package dev.besimgurbuz.backend.recent.utils;
 
 import dev.besimgurbuz.backend.recent.enums.SpotifyTokenKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,6 +12,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +20,20 @@ import java.util.stream.Collectors;
  */
 @Component
 public class SpotifyTokenHandler {
+
+    @Value("${spotify.access_token:NO_TOKEN}")
+    private String accessToken;
+
+    @Value("${spotify.refresh_token:NO_TOKEN}")
+    private String refreshToken;
+
+    @PostConstruct
+    public void onInit() {
+        // set tokens from env on initialization
+        if (!accessToken.equals("NO_TOKEN") && !refreshToken.equals("NO_TOKEN")) {
+            setTokens(accessToken, refreshToken);
+        }
+    }
 
     public String getAccessToken() {
         try {
