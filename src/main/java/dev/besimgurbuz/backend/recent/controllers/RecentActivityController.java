@@ -3,6 +3,7 @@ package dev.besimgurbuz.backend.recent.controllers;
 import dev.besimgurbuz.backend.recent.clients.SpotifyClient;
 import dev.besimgurbuz.backend.recent.dtos.RecentSpotifyActivity;
 import dev.besimgurbuz.backend.recent.dtos.RecentSteamActivity;
+import dev.besimgurbuz.backend.recent.exceptions.SpotifyAccessTokenExpiredException;
 import dev.besimgurbuz.backend.recent.services.RecentActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class RecentActivityController {
     }
 
     @GetMapping("/spotify")
-    public RecentSpotifyActivity recentSpotify() {
+    public RecentSpotifyActivity recentSpotify() throws SpotifyAccessTokenExpiredException {
         return recentActivityService.getRecentSpotifyActivity();
     }
 }

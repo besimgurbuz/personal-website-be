@@ -4,6 +4,7 @@ import dev.besimgurbuz.backend.recent.clients.SpotifyClient;
 import dev.besimgurbuz.backend.recent.clients.SteamClient;
 import dev.besimgurbuz.backend.recent.dtos.RecentSpotifyActivity;
 import dev.besimgurbuz.backend.recent.dtos.RecentSteamActivity;
+import dev.besimgurbuz.backend.recent.exceptions.SpotifyAccessTokenExpiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class RecentActivityService {
         return steamClient.getRecentActivity();
     }
 
-    public RecentSpotifyActivity getRecentSpotifyActivity() {
+    public RecentSpotifyActivity getRecentSpotifyActivity() throws SpotifyAccessTokenExpiredException {
         return spotifyClient.getRecentActivity();
     }
 }
