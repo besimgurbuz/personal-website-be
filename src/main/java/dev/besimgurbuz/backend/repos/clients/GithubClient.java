@@ -37,7 +37,7 @@ public class GithubClient {
     }
 
     public List<GithubRepository> getGithubRepos() {
-        final String url = "https://api.github.com/users/" + githubUsername + "/repos?sort=stargazers&direction=asc";
+        final String url = "https://api.github.com/users/" + githubUsername + "/repos?sort=created&direction=asc";
 
         try {
             logger.log(Level.INFO, "Fetching GitHub repositories for {0}.", githubUsername);
