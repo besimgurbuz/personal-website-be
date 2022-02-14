@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class Game {
-    private static final String STEAM_MEDIA_URL = "http://media.steampowered.com/steamcommunity/public/images/apps/%s/%s.jpg";
+    private static final String STEAM_MEDIA_URL = "https://media.steampowered.com/steamcommunity/public/images/apps/%s/%s.jpg";
 
     @JsonProperty("appid")
     private Long appId;
