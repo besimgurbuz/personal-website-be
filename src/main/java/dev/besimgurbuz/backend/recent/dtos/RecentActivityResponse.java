@@ -14,16 +14,18 @@ public class RecentActivityResponse {
     SteamActivityResult steam;
 
     public RecentActivityResponse(RecentSpotifyActivity spotifyActivity, RecentSteamActivity steamActivity) {
-        Track latestTrack = spotifyActivity.getItems().get(0).getTrack();
-        Optional<SteamActivityResult> latestGame = Optional.ofNullable(steamActivity.getResponse().getGames()).map(games -> {
-            Game latest = games.get(0);
+        Optional<SpotifyActivityResult> latestSpotifyActivity = Optional.ofNullable(spotifyActivity.getItems().get(0).getTrack())
+                .map((track -> new SpotifyActivityResult(
+                        track.getAlbum().getArtists().stream().map(Artist::getName).collect(Collectors.joining(", ")),
+                        track.getAlbum().getName(),
+                        track.getAlbum().getImages().get(2),
+                        track.getAlbum().getExternalUrl().getSpotify())));
+        Optional<SteamActivityResult> latestSteamActivity = Optional.ofNullable(steamActivity.getResponse().getGames()).map(games -> {
+            Game latest = games.get(games.size() - 1);
             return new SteamActivityResult(latest.getName(), latest.getImgIconUrl());
         });
-        spotify = new SpotifyActivityResult(
-                latestTrack.getAlbum().getArtists().stream().map(Artist::getName).collect(Collectors.joining(", ")),
-                latestTrack.getAlbum().getName(),
-                latestTrack.getAlbum().getImages().get(2),
-                latestTrack.getAlbum().getExternalUrl().getSpotify());
-        steam = latestGame.orElse(null);
+
+        spotify = latestSpotifyActivity.orElse(null);
+        steam = latestSteamActivity.orElse(null);
     }
 }
