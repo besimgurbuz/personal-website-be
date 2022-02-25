@@ -54,7 +54,7 @@ public class SpotifyAccessTokenAspect {
                     logger.log(Level.INFO, "Successfully fetched new active access token for Spotify API.");
                     tokenHandler.setTokens(body.getAccessToken(), body.getRefreshToken().isEmpty()
                             ? refreshToken : body.getRefreshToken());
-                    return client.getRecentActivity();
+                    return (RecentSpotifyActivity) proceedingJoinPoint.proceed();
                 }
             }
             throw e;

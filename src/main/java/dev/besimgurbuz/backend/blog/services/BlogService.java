@@ -3,7 +3,6 @@ package dev.besimgurbuz.backend.blog.services;
 import dev.besimgurbuz.backend.blog.clients.MediumClient;
 import dev.besimgurbuz.backend.blog.dtos.MediumFeedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
