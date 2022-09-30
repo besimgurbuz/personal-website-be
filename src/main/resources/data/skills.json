@@ -1,0 +1,86 @@
+[
+  {
+    "label": "TypeScript",
+    "types": [
+      "frontend",
+      "backend"
+    ],
+    "iconUrl": "https://lh3.googleusercontent.com/VV9_Qlz23Xx7yWxV8kojrD6-VdFkYLsvAEUZXkhoAWozM9ginHXZUMx5kxWadS0yoo0=w2400"
+  },
+  {
+    "label": "JavaScript",
+    "types": [
+      "frontend",
+      "backend"
+    ],
+    "iconUrl": "https://lh4.googleusercontent.com/dpTLeWkl_GkopVz69ZD979PFuiWHQkmvr_ZodtC7YYg8xOMnCiS3pah7Z5XN0sKPV98=w2400"
+  },
+  {
+    "label": "Angular",
+    "types": [
+      "frontend"
+    ],
+    "iconUrl": "https://lh4.googleusercontent.com/7SvXap0utkELUIbyDpAeI6Whk4UzOcMxQzUOernxZtMQO2Oqyes3CkCbwF6trnzLLrM=w2400"
+  },
+  {
+    "label": "Svelte",
+    "types": [
+      "frontend"
+    ],
+    "iconUrl": "https://lh5.googleusercontent.com/tpN8-SZMKiEy97FfODLbv6ujCRIA2ix7Mmq5P6pOVjMoeh6HR9uMX80a-nTcrbiYb74=w2400"
+  },
+  {
+    "label": "Node.js",
+    "types": [
+      "backend"
+    ],
+    "iconUrl": "https://lh5.googleusercontent.com/PVA6Py_tKLYDBaGkokcxcIB9A48hHCRVQvrk5GiKbyWc8gnHn7O6ger6PnS7nDvEoiw=w2400"
+  },
+  {
+    "label": "Sass",
+    "types": [
+      "frontend"
+    ],
+    "iconUrl": "https://lh3.googleusercontent.com/lsz5qhzg7FG9kn4eENboWKU1UOTc_jnQS_tTxdukcxcWVMEVKq2gwwXjdzmCo8W7FmE=w2400"
+  },
+  {
+    "label": "Java",
+    "types": [
+      "backend"
+    ],
+    "iconUrl": "https://lh5.googleusercontent.com/nA_3_iM9R-khtKqXwMQ9qd7CRNK0nS6eMwMcqIGQonhu8rzmwzxXIP4lQHoYKAIjAU0=w2400"
+  },
+  {
+    "label": "Spring Boot",
+    "types": [
+      "backend"
+    ],
+    "iconUrl": "https://lh6.googleusercontent.com/d_-Fx-2cR9sqg5GjfuPl31ZBxmNl4hT702s2GURVQMO1IfOd-tp_piYPh88m5Uv5z3c=w2400"
+  },
+  {
+    "label": "PostgreSQL",
+    "types": [
+      "backend",
+      "database"
+    ],
+    "iconUrl": "https://lh5.googleusercontent.com/7YSqepD57YKkjXCEFkAlLypeEPmDajXM5JGumEDXoaH5Bo_fIAUUWs7PMjFY16c9HFQ=w2400"
+  },
+  {
+    "label": "Go",
+    "types": [
+      "backend",
+      "system_programming"
+    ],
+    "iconUrl": "https://lh3.googleusercontent.com/HBFFiJyayLwyNX51QfP8E-mKmfRz3Rorg0r_ErCYSIeiDkcfDmsjB1ln1xnxHzu-PY8=w2400",
+    "inProgress": true
+  },
+  {
+    "label": "Rust",
+    "types": [
+      "backend",
+      "system_programming"
+    ],
+    "iconUrl": "https://lh6.googleusercontent.com/omPOpkWq31Itgha35UZ1dLTamTpYzZRb9myVY1sYiRKpRYSRgLUjnmkkyKC3SbMD7ho=w2400",
+    "inProgress": true
+  }
+]
