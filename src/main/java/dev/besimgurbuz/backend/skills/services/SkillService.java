@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.Comparator.comparing;
+
 /**
  * @author Besim Gurbuz
  */
@@ -22,7 +24,9 @@ public class SkillService {
 
    public List<Skill> getSkills() {
       try {
-         return repository.getSkills();
+         List<Skill> skills = repository.getSkills();
+         skills.sort(comparing(Skill::isInProgress).thenComparing(Skill::getLabel));
+         return skills;
       } catch (IOException e) {
          logger.log(Level.INFO, "Failed to get skills: {}", e.getCause());
          return List.of();

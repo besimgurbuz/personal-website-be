@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class SteamActivityResult {
     private String gameName;
     private String iconUrl;
+    private String storeUrl;
 }

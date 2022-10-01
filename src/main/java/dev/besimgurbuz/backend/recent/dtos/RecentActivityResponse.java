@@ -22,7 +22,7 @@ public class RecentActivityResponse {
                         track.getAlbum().getExternalUrl().getSpotify())));
         Optional<SteamActivityResult> latestSteamActivity = Optional.ofNullable(steamActivity.getResponse().getGames()).map(games -> {
             Game latest = games.get(0);
-            return new SteamActivityResult(latest.getName(), latest.getImgIconUrl());
+            return new SteamActivityResult(latest.getName(), latest.getImgIconUrl(), latest.getStoreUrl());
         });
 
         spotify = latestSpotifyActivity.orElse(null);
